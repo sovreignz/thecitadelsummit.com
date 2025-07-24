@@ -2,64 +2,92 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-  <title>Brandwell</title>
-  <meta name="description" content="Brandwell: Launch sovereign, frictionless creative stacks in minutes." />
-  <meta name="author" content="Chase Premone" />
-
-  <!-- OpenGraph -->
-  <meta property="og:title" content="Brandwell" />
-  <meta property="og:description" content="The future of modular, sovereign, no-code web deployment." />
-  <meta property="og:image" content="https://brandwell.world/assets/images/og-image.png" />
-  <meta property="og:url" content="https://brandwell.world" />
-  <meta name="twitter:card" content="summary_large_image" />
-
-  <!-- Favicon -->
-  <link rel="icon" href="/assets/images/favicon.ico" />
-
-  <!-- Styles (inline for now, or link external CSS) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Citadel Summit | A Gathering of Sovereigns</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Space+Grotesk&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background-color: #0a0a0a;
-      color: #f4f4f4;
-      font-family: 'Helvetica Neue', sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-      padding: 2rem;
+      background-color: #0b0c10;
+      color: #e5e7eb;
+      font-family: 'Unbounded', sans-serif;
     }
-    h1 {
-      font-size: 4rem;
-      margin-bottom: 1rem;
+    .serif {
+      font-family: 'Space Grotesk', sans-serif;
     }
-    p {
-      font-size: 1.2rem;
-      color: #bbb;
-      max-width: 600px;
+    .glow {
+      box-shadow: 0 0 24px rgba(255, 255, 255, 0.08);
     }
-    a {
-      margin-top: 2rem;
-      color: #fff;
-      background: #444;
-      padding: 0.75rem 1.5rem;
-      border-radius: 4px;
-      text-decoration: none;
-    }
-    a:hover {
-      background: #666;
+    .gradient-text {
+      background: linear-gradient(to right, #eab308, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
   </style>
 </head>
+<body class="overflow-x-hidden">
 
-<body>
-  <h1>The Citadel Summit</h1>
-  <p>Welcome to the sovereign stack. This site is live and deployable. Customize the content, drop in assets, and ship at will.</p>
-  <a href="mailto:chase@kxros.io">Contact Us</a>
+<!-- Hero -->
+<section class="min-h-screen flex flex-col items-center justify-center text-center px-6">
+  <h1 class="text-5xl md:text-6xl font-bold gradient-text mb-4 tracking-tight uppercase">Citadel Summit</h1>
+  <p class="text-slate-400 text-lg max-w-2xl mb-6 serif">
+    Not a vacation. A ritual.  
+    Gather with the signal-bearers, warriors, and sovereign minds shaping the next civilization.
+  </p>
+  <a href="#apply" class="bg-white text-black px-6 py-3 rounded-md text-sm uppercase font-mono tracking-wide hover:bg-slate-200 transition">Apply to Attend</a>
+</section>
+
+<!-- Details Section -->
+<section class="py-20 px-6 max-w-5xl mx-auto text-center">
+  <h2 class="text-3xl md:text-4xl font-bold mb-6">A Sanctuary for the Aligned</h2>
+  <p class="text-slate-400 text-md max-w-3xl mx-auto leading-relaxed serif">
+    These are not retreats. They are citadels.  
+    No phones. No fluff. No spectators.  
+    Every Summit is a forged alliance. A container for clarity. A crucible for sovereignty.
+  </p>
+
+  <div class="grid md:grid-cols-3 gap-10 text-left mt-16 text-sm text-slate-300">
+    <div>
+      <h3 class="text-lg font-semibold text-white mb-2">⚔️ Rituals of Sovereignty</h3>
+      <p>Breath. Cold. Fire. Silence. Combat.  
+      We train the vessel and cleanse the signal.</p>
+    </div>
+    <div>
+      <h3 class="text-lg font-semibold text-white mb-2">🧠 Strategic Collaboration</h3>
+      <p>Each Citadel assembles builders, founders, creatives, and architects to mastermind deeply.</p>
+    </div>
+    <div>
+      <h3 class="text-lg font-semibold text-white mb-2">🌍 Mythic Locations</h3>
+      <p>Set in ancient lands with elemental energy—coastal cliffs, volcanic lakes, mountain sanctuaries.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Visual Break -->
+<section class="relative h-96 bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1549887534-3ec93abae7c3?ixlib=rb-4.0.3&auto=format&fit=crop&q=80')]">
+  <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+    <h2 class="text-3xl md:text-5xl text-white font-bold">Return to the Signal</h2>
+  </div>
+</section>
+
+<!-- Apply Section -->
+<section id="apply" class="px-6 py-20 text-center">
+  <h3 class="text-3xl font-bold mb-4">Request Invitation</h3>
+  <p class="text-slate-400 mb-8 max-w-xl mx-auto">These are small, private gatherings. Every application is reviewed by Chase directly. Apply only if you’re called.</p>
+
+  <!-- Replace with actual form later -->
+  <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="max-w-xl mx-auto space-y-6">
+    <input type="text" name="name" placeholder="Your Name" required class="w-full px-4 py-3 rounded-md bg-[#111] text-white border border-slate-600"/>
+    <input type="email" name="email" placeholder="Email Address" required class="w-full px-4 py-3 rounded-md bg-[#111] text-white border border-slate-600"/>
+    <textarea name="intent" placeholder="Why do you want to attend the Citadel?" rows="5" required class="w-full px-4 py-3 rounded-md bg-[#111] text-white border border-slate-600"></textarea>
+    <button type="submit" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-bold px-6 py-3 rounded-md hover:opacity-90">Send Request</button>
+  </form>
+</section>
+
+<!-- Footer -->
+<footer class="text-xs text-slate-500 text-center mt-20 py-10 border-t border-slate-800">
+  &copy; 2025 Citadel Summit • A Kairos Ritual
+</footer>
+
 </body>
 </html>
