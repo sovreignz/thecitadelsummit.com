@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Citadel - An Exclusive Retreat for Leaders & Builders</title>
-    <meta name="description" content="The Citadel is an invite-only retreat for cultivating resilience, discipline, and sovereign skill. Apply for an interview.">
+    <meta name="description" content="The Citadel is an invite-only, high-agency retreat where you master AI, elevate your body, and connect with a network for life.">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,425 +14,356 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <!-- Leaflet CSS for Map -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'obsidian': '#0B0B0B',
+                        'bloodroot': '#6B1E1E',
+                        'vellum': '#E7E3DA',
+                        'white': '#FFFFFF',
+                    },
+                    fontFamily: {
+                        'sans': ['Plus Jakarta Sans', 'sans-serif'],
+                        'serif': ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
 
-    <!-- Custom Styles & Tailwind Config -->
+    <!-- Custom Styles -->
     <style>
-        :root {
-            --color-bg-dark: #121212;
-            --color-bg-light: #F5F3EF;
-            --color-text-dark: #121212;
-            --color-text-light: #F5F3EF;
-            --color-accent: #A94438; /* Deep, rich red from mockups */
-        }
-        body {
-            background-color: var(--color-bg-dark);
-            color: var(--color-text-light);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Playfair Display', serif;
-        }
-        .bg-light { background-color: var(--color-bg-light); color: var(--color-text-dark); }
-        .bg-dark { background-color: var(--color-bg-dark); color: var(--color-text-light); }
-        .bg-accent { background-color: var(--color-accent); }
-        .text-accent { color: var(--color-accent); }
-
-        /* Custom focus styles for accessibility */
-        :focus-visible {
-            outline: 3px solid #F5EEDF;
-            outline-offset: 4px;
-            border-radius: 6px;
-        }
         .details-icon {
             transition: transform 0.3s ease;
         }
         details[open] .details-icon {
-            transform: rotate(45deg);
+            transform: rotate(135deg);
         }
-        /* Styles for the sticky nav */
-        #sticky-nav {
-            transition: top 0.3s ease-in-out;
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
         }
-        /* Leaflet Map Customizations */
-        .leaflet-container {
-            background: #0a0a0a;
-        }
-        .custom-pin {
-            background-color: var(--color-accent);
-            border: 2px solid var(--color-text-light);
-            border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            box-shadow: 0 0 10px var(--color-accent);
-        }
-        .leaflet-popup-content-wrapper, .leaflet-popup-tip {
-            background: var(--color-bg-dark);
-            color: var(--color-text-light);
-            border: 1px solid var(--color-accent);
+        /* Mobile menu transition */
+        #mobile-menu {
+            transition: opacity 0.3s ease-in-out;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="bg-obsidian text-vellum antialiased">
+    
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute z-50 top-4 left-4 bg-white text-obsidian px-4 py-2 rounded-lg">Skip to main content</a>
 
-    <!-- Header -->
-    <header class="absolute top-0 left-0 right-0 z-50 p-8">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="#" class="flex items-center space-x-2 text-white">
+    <header class="bg-obsidian/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2 text-vellum">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 21v-4.5m0 0A9.75 9.75 0 0112 3v0a9.75 9.75 0 019 13.5m-9 0v4.5m0-4.5H3m9 0h9"></path><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.75 9.75 0 01-9-13.5"></path></svg>
-                <span class="text-2xl font-semibold">Citadel</span>
+                <span class="text-2xl font-semibold font-serif">The Citadel</span>
             </a>
+            <button id="menu-toggle" class="z-50 p-2 md:hidden">
+                <svg class="w-6 h-6 text-vellum" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="#timeline" class="hover:text-white transition-colors">Timeline</a>
+                <a href="#experience" class="hover:text-white transition-colors">Experience</a>
+                <a href="#value" class="hover:text-white transition-colors">Value</a>
+                <a href="#apply" class="bg-vellum text-obsidian font-bold px-6 py-2 rounded-lg hover:bg-opacity-90 transition-opacity">Apply</a>
+            </nav>
+        </div>
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-obsidian z-40 flex flex-col items-center justify-center space-y-8 text-3xl font-serif hidden opacity-0">
+            <a href="#timeline" class="menu-link hover:text-bloodroot">Timeline</a>
+            <a href="#experience" class="menu-link hover:text-bloodroot">Experience</a>
+            <a href="#value" class="menu-link hover:text-bloodroot">Value</a>
+            <a href="#apply" class="menu-link hover:text-bloodroot">Apply</a>
         </div>
     </header>
 
-    <!-- Sticky Navigation -->
-    <nav id="sticky-nav" class="fixed top-[-100px] left-0 right-0 z-40 bg-black/50 backdrop-blur-lg">
-        <div class="container mx-auto flex justify-center items-center h-16 space-x-8">
-            <a href="#who" class="text-gray-300 hover:text-white transition-colors">The Who</a>
-            <a href="#experience" class="text-gray-300 hover:text-white transition-colors">The Experience</a>
-            <a href="#timeline" class="text-gray-300 hover:text-white transition-colors">The Journey</a>
-            <a href="#value" class="text-gray-300 hover:text-white transition-colors">The Value</a>
-            <a href="#locations" class="text-gray-300 hover:text-white transition-colors">Locations</a>
-            <a href="#apply" class="text-white font-bold bg-accent px-5 py-2 rounded-lg hover:opacity-90">Apply</a>
-        </div>
-    </nav>
+    <main id="main">
 
-    <main>
-
-        <!-- Hero Section -->
-        <section class="relative h-screen flex items-center justify-center text-center bg-black">
-            <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://placehold.co/1920x1080/000000/FFF?text=Mountain+Vista');"></div>
-            <div class="relative z-10 px-4">
-                <h1 class="text-5xl md:text-7xl font-bold leading-tight max-w-4xl mx-auto">Unlock your full potential at an exclusive retreat for those who build, lead, and refuse to settle.</h1>
-                <a href="#apply" class="mt-12 inline-block bg-white text-black font-bold text-lg px-12 py-4 rounded-lg hover:bg-gray-200 transition-colors">Apply to be Interviewed</a>
-            </div>
-        </section>
-
-        <!-- Who It's For Section -->
-        <section id="who" class="bg-light py-20 md:py-32">
-            <div class="container mx-auto px-4 text-center">
-                <h2 class="text-4xl md:text-5xl font-bold mb-12">Who is The Citadel For?</h2>
-                <div class="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
-                    <div>
-                        <h3 class="text-3xl font-bold mb-4">The Architect</h3>
-                        <p class="text-lg text-gray-700">Seeks to design a life of meaning and purpose, building systems for success and fulfillment.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-3xl font-bold mb-4">The Firestarter</h3>
-                        <p class="text-lg text-gray-700">Strives to ignite positive change in the world, leading with passion and unwavering conviction.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-3xl font-bold mb-4">The Strategist</h3>
-                        <p class="text-lg text-gray-700">Aims to forge an effective path to success, mastering the tools and mindset to win.</p>
-                    </div>
+        <!-- 1. Hero Section -->
+        <section class="bg-obsidian text-vellum relative min-h-screen flex flex-col items-center justify-center text-center p-8 -mt-20">
+            <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://placehold.co/1920x1080/0B0B0B/E7E3DA?text=Cinematic+Loop');"></div>
+            <div class="relative z-10">
+                <h1 class="text-5xl md:text-7xl font-serif font-bold">Don’t just upgrade your technology.</h1>
+                <h2 class="text-5xl md:text-7xl font-serif font-bold mt-2">Upgrade the soul that operates it.</h2>
+                <p class="mt-6 text-xl max-w-3xl mx-auto">The Citadel is an invite-only, high-agency retreat where you master AI, elevate your body, and connect with a network for life.</p>
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#apply" class="bg-vellum text-obsidian font-bold px-10 py-4 rounded-lg hover:bg-opacity-90 transition-opacity text-lg">Apply for Interview</a>
+                    <a href="#" class="border border-vellum text-vellum font-bold px-10 py-4 rounded-lg hover:bg-vellum hover:text-obsidian transition-colors text-lg">Request Brochure</a>
                 </div>
             </div>
+            <div class="relative z-10 mt-16 grid grid-cols-3 gap-8 text-lg">
+                <div><span class="font-bold">Duration:</span> 7 Days</div>
+                <div><span class="font-bold">Location:</span> Global Destinations</div>
+                <div><span class="font-bold">Investment:</span> Revealed at Interview</div>
+            </div>
         </section>
-        
-        <!-- Standalone Quote Section -->
-        <section class="bg-dark py-20 md:py-32">
+
+        <!-- 2. Retreat Timeline -->
+        <section id="timeline" class="bg-vellum text-obsidian py-20 md:py-32">
             <div class="container mx-auto px-4">
-                <blockquote class="text-center text-4xl md:text-6xl font-bold max-w-4xl mx-auto leading-tight">
-                    <span class="text-gray-500">Don't just upgrade your technology,</span><br>
-                    upgrade the soul that operates it.
-                </blockquote>
-            </div>
-        </section>
-
-        <!-- Video from Founder -->
-        <section class="bg-dark pt-10 pb-20 md:pt-16 md:pb-32">
-            <div class="container mx-auto px-4 text-center">
-                <h2 class="text-4xl md:text-5xl font-bold mb-12">A Word From Our Founder</h2>
-                <div class="max-w-4xl mx-auto aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl relative">
-                    <img src="http://googleusercontent.com/file_content/4" alt="Founder of The Citadel" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
-                        <button class="w-20 h-20 bg-white bg-opacity-20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-opacity-30 transition-all">
-                            <svg class="w-10 h-10 ml-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- AI Implementation Section -->
-        <section class="bg-dark py-20 md:py-32">
-            <div class="container mx-auto px-4">
-                <div class="grid md:grid-cols-2 gap-16 items-center">
-                    <div class="text-center md:text-left">
-                        <h2 class="text-4xl md:text-5xl font-bold">AI Implementation:</h2>
-                        <h3 class="text-4xl md:text-5xl font-bold text-gray-400 mt-2">Channeling Your Signal</h3>
-                        <p class="text-lg mt-8">Learn how to apply AI to hone your purpose and skills. Discover how to leverage artificial intelligence not just as a tool, but as a partner in unlocking your true potential.</p>
-                    </div>
-                    <div class="flex justify-center">
-                        <svg class="w-64 h-64 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 100 100">
-                            <rect x="20" y="20" width="60" height="60" rx="5" stroke-width="2"/>
-                            <path d="M40 40 L60 40 M40 50 L60 50 M40 60 L60 60" stroke-width="2"/>
-                            <path d="M20 35 L5 35 M20 50 L5 50 M20 65 L5 65" stroke-width="2"/>
-                            <path d="M80 35 L95 35 M80 50 L95 50 M80 65 L95 65" stroke-width="2"/>
-                            <text x="50" y="55" font-size="20" fill="currentColor" text-anchor="middle" font-family="Playfair Display">AI</text>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Learning Modules Section -->
-        <section class="bg-accent py-20 md:py-32">
-            <div class="container mx-auto px-4 text-center">
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">AI Learning Modules</h2>
-                <p class="text-lg text-gray-200 max-w-3xl mx-auto mb-16">Gain insights and skills with our comprehensive modules throughout the week.</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                    <div class="border-2 border-gray-400/50 rounded-xl p-6 text-2xl font-bold text-white">Introduction to AI</div>
-                    <div class="border-2 border-gray-400/50 rounded-xl p-6 text-2xl font-bold text-white">Practical Applications</div>
-                    <div class="border-2 border-gray-400/50 rounded-xl p-6 text-2xl font-bold text-white">Prompting Strategies</div>
-                    <div class="border-2 border-gray-400/50 rounded-xl p-6 text-2xl font-bold text-white">ChatGPT for Business</div>
-                    <div class="border-2 border-gray-400/50 rounded-xl p-6 text-2xl font-bold text-white">Automation & Tools</div>
-                    <div class="border-2 border-gray-400/50 rounded-xl p-6 text-2xl font-bold text-white">AI Best Practices</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Accommodation Section -->
-        <section class="bg-light py-20 md:py-32">
-            <div class="container mx-auto px-4">
-                <div class="text-center">
-                    <h2 class="text-5xl md:text-6xl font-bold">Accommodation</h2>
-                    <p class="text-xl text-gray-700 mt-4 max-w-2xl mx-auto">Relax in comfort with premium amenities at a luxurious villa on the coast.</p>
-                </div>
-                <div class="mt-16 max-w-6xl mx-auto rounded-2xl overflow-hidden shadow-2xl">
-                    <img src="https://placehold.co/1200x600/e5e7eb/333?text=Luxury+Villa" alt="Luxury villa bedroom overlooking the ocean">
-                </div>
-                <div class="mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 text-center max-w-5xl mx-auto">
-                    <div class="font-semibold"><svg class="w-10 h-10 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path></svg>Private Room</div>
-                    <div class="font-semibold"><svg class="w-10 h-10 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.162 4.543a2.25 2.25 0 012.228-.966h13.22a2.25 2.25 0 012.228.966c.263.55.385 1.153.385 1.767 0 2.89-2.344 5.233-5.233 5.233s-5.233-2.343-5.233-5.233c0-.614.122-1.217.385-1.767zM12 18.75c4.142 0 7.5-3.358 7.5-7.5H4.5c0 4.142 3.358 7.5 7.5 7.5z"></path></svg>Beach Access</div>
-                    <div class="font-semibold"><svg class="w-10 h-10 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V14.25m-17.25 4.5v-1.875a3.375 3.375 0 013.375-3.375h9.75a3.375 3.375 0 013.375 3.375V18.75m-17.25 4.5h17.25a1.125 1.125 0 001.125-1.125V6.75a1.125 1.125 0 00-1.125-1.125H3.375A1.125 1.125 0 002.25 6.75v10.875c0 .621.504 1.125 1.125 1.125z"></path></svg>Group Driver</div>
-                    <div class="font-semibold"><svg class="w-10 h-10 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path></svg>Pool</div>
-                    <div class="font-semibold"><svg class="w-10 h-10 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.5 4.5L12 6l-1.5-1.5M13.5 9L12 10.5l-1.5-1.5M13.5 13.5L12 15l-1.5-1.5M12 19.5l-1.5-1.5-1.5 1.5-1.5-1.5-1.5 1.5-1.5-1.5-1.5 1.5M12 19.5l1.5-1.5 1.5 1.5 1.5-1.5 1.5 1.5 1.5-1.5 1.5 1.5"></path></svg>Cold Plunge</div>
-                    <div class="font-semibold"><svg class="w-10 h-10 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 10.5a.75.75 0 01-.75.75H3.75a.75.75 0 010-1.5h16.5a.75.75 0 01.75.75zM8.25 6.75h7.5v10.5h-7.5V6.75zM12 6.75V3.75m0 16.5V17.25"></path></svg>Supplements</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Activities Sections (Bento Grid) -->
-        <section id="experience" class="bg-dark py-20 md:py-32">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-16">
-                    <h2 class="text-5xl md:text-6xl font-bold">A Holistic Experience</h2>
-                    <p class="text-xl text-gray-400 mt-4">Body, mind, and spirit—all are essential to the equation of your success.</p>
-                </div>
-                <div class="grid grid-cols-2 md:grid-cols-3 grid-rows-2 gap-4 md:gap-8 max-w-6xl mx-auto" style="min-height: 800px;">
-                    <div class="col-span-1 row-span-2 relative rounded-2xl overflow-hidden"><img src="https://placehold.co/600x800/000/fff?text=Muay+Thai" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div><p class="absolute bottom-8 left-8 text-3xl font-bold">Muay Thai</p></div>
-                    <div class="col-span-1 row-span-1 relative rounded-2xl overflow-hidden"><img src="https://placehold.co/600x400/000/fff?text=Breathwork" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div><p class="absolute bottom-8 left-8 text-3xl font-bold">Breathwork</p></div>
-                    <div class="col-span-1 row-span-1 md:col-span-1 relative rounded-2xl overflow-hidden"><img src="https://placehold.co/600x400/000/fff?text=Yoga" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div><p class="absolute bottom-8 left-8 text-3xl font-bold">Yoga</p></div>
-                    <div class="col-span-2 md:col-span-2 row-span-1 relative rounded-2xl overflow-hidden"><img src="https://placehold.co/1200x400/000/fff?text=Group+Adventures" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div><p class="absolute bottom-8 left-8 text-3xl font-bold">Shared Experiences</p></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Timeline Section -->
-        <section id="timeline" class="bg-dark py-20 md:py-32">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-16">
-                    <h2 class="text-5xl md:text-6xl font-bold">A Glimpse Into Your Week</h2>
-                    <p class="text-xl text-gray-400 mt-4">A structured journey of growth and discovery.</p>
-                </div>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-20">Your Citadel Week — From Arrival to Transformation</h2>
                 <div class="relative max-w-5xl mx-auto">
-                    <div class="absolute top-1/2 left-0 w-full h-0.5 bg-gray-700"></div>
-                    <div class="relative flex justify-between">
-                        <div class="text-center w-1/4">
-                            <div class="relative mb-4"><div class="w-4 h-4 bg-accent rounded-full mx-auto border-4 border-dark"></div></div>
-                            <h3 class="font-bold text-2xl">Day 1</h3><p class="text-gray-400 mt-2">Arrival & Alignment</p>
+                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-0.5 h-full bg-gray-300"></div>
+                    <div class="space-y-16">
+                        <!-- Timeline Item -->
+                        <div class="relative pl-12 md:pl-0">
+                            <div class="md:absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-bloodroot border-4 border-vellum"></div>
+                            <div class="md:w-1/2 md:pr-16 md:text-right">
+                                <p class="font-serif font-bold text-2xl">Day 1: Arrival & Decompression</p>
+                                <p class="text-xl mt-2">Disconnect from the noise. Settle into the villa, meet your cohort, and align on your intentions during our opening dinner.</p>
+                            </div>
                         </div>
-                        <div class="text-center w-1/4">
-                            <div class="relative mb-4"><div class="w-4 h-4 bg-accent rounded-full mx-auto border-4 border-dark"></div></div>
-                            <h3 class="font-bold text-2xl">Day 2-3</h3><p class="text-gray-400 mt-2">Deep Dive: AI & Wellness</p>
+                        <!-- Timeline Item -->
+                        <div class="relative pl-12 md:pl-0">
+                            <div class="md:absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-bloodroot border-4 border-vellum"></div>
+                            <div class="md:w-1/2 md:ml-auto md:pl-16">
+                                <p class="font-serif font-bold text-2xl">Day 2: Forging the Foundation</p>
+                                <p class="text-xl mt-2">Begin with morning breathwork and physical training. Your first AI module focuses on core principles and prompt engineering.</p>
+                            </div>
                         </div>
-                        <div class="text-center w-1/4">
-                            <div class="relative mb-4"><div class="w-4 h-4 bg-accent rounded-full mx-auto border-4 border-dark"></div></div>
-                            <h3 class="font-bold text-2xl">Day 4-5</h3><p class="text-gray-400 mt-2">Integration & Application</p>
+                        <!-- Timeline Item -->
+                        <div class="relative pl-12 md:pl-0">
+                            <div class="md:absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-bloodroot border-4 border-vellum"></div>
+                            <div class="md:w-1/2 md:pr-16 md:text-right">
+                                <p class="font-serif font-bold text-2xl">Day 3-4: Deep Work & Integration</p>
+                                <p class="text-xl mt-2">Apply your learnings in hands-on AI labs. Build custom agents and automation flows. Afternoon sessions focus on group challenges and strategic thinking.</p>
+                            </div>
                         </div>
-                        <div class="text-center w-1/4">
-                            <div class="relative mb-4"><div class="w-4 h-4 bg-accent rounded-full mx-auto border-4 border-dark"></div></div>
-                            <h3 class="font-bold text-2xl">Day 6-7</h3><p class="text-gray-400 mt-2">Showcase & Departure</p>
+                         <div class="relative pl-12 md:pl-0">
+                            <div class="md:absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-bloodroot border-4 border-vellum"></div>
+                            <div class="md:w-1/2 md:ml-auto md:pl-16">
+                                <p class="font-serif font-bold text-2xl">Day 5-6: Synthesis & Showcase</p>
+                                <p class="text-xl mt-2">Refine your personal projects with founder-led feedback. Prepare for your final showcase, integrating all you've learned about tech and self-mastery.</p>
+                            </div>
+                        </div>
+                         <div class="relative pl-12 md:pl-0">
+                            <div class="md:absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-bloodroot border-4 border-vellum"></div>
+                            <div class="md:w-1/2 md:pr-16 md:text-right">
+                                <p class="font-serif font-bold text-2xl">Day 7: Departure & The Network</p>
+                                <p class="text-xl mt-2">Present your final work, enjoy a farewell brunch, and officially join the Citadel's lifelong alumni network.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Value Breakdown Section -->
-        <section id="value" class="bg-dark py-20 md:py-32">
+        <!-- 3. Group & Wellness Activities -->
+        <section id="experience" class="bg-vellum py-20 md:py-32">
             <div class="container mx-auto px-4 text-center">
-                <h2 class="text-4xl md:text-5xl font-bold">An Unparalleled Value</h2>
-                <p class="text-lg text-gray-400 mt-4 max-w-2xl mx-auto">This is more than a retreat; it's a lifelong investment in your personal and professional operating system.</p>
-                <div class="mt-16 bg-black/50 border border-gray-800 rounded-3xl p-8 md:p-12 max-w-5xl mx-auto">
-                    <div class="grid md:grid-cols-2 gap-8 text-left">
-                        <div class="space-y-6">
-                            <div class="flex items-start space-x-4"><div class="mt-1 w-8 h-8 text-accent flex-shrink-0">✓</div><p class="text-xl font-semibold">7-Day All-Inclusive Luxury Villa Stay <span class="text-gray-400">($4,200 Value)</span></p></div>
-                            <div class="flex items-start space-x-4"><div class="mt-1 w-8 h-8 text-accent flex-shrink-0">✓</div><p class="text-xl font-semibold">Gourmet Meals by a Private Chef <span class="text-gray-400">($1,200 Value)</span></p></div>
-                            <div class="flex items-start space-x-4"><div class="mt-1 w-8 h-8 text-accent flex-shrink-0">✓</div><p class="text-xl font-semibold">Intensive, Hands-On AI Curriculum <span class="text-gray-400">($1,800 Value)</span></p></div>
-                        </div>
-                        <div class="space-y-6">
-                            <div class="flex items-start space-x-4"><div class="mt-1 w-8 h-8 text-accent flex-shrink-0">✓</div><p class="text-xl font-semibold">Daily Guided Wellness Practices <span class="text-gray-400">(Priceless)</span></p></div>
-                            <div class="flex items-start space-x-4"><div class="mt-1 w-8 h-8 text-accent flex-shrink-0">✓</div><p class="text-xl font-semibold">Curated Group Adventures <span class="text-gray-400">(Priceless)</span></p></div>
-                            <div class="flex items-start space-x-4"><div class="mt-1 w-8 h-8 text-accent flex-shrink-0">✓</div><p class="text-xl font-semibold">Lifetime Access to the Citadel Network <span class="text-gray-400">($997 Value)</span></p></div>
-                        </div>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold mb-16">Forge Strength in Body, Mind, and Signal</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div>
+                        <img src="https://placehold.co/600x400/E7E3DA/0B0B0B?text=Muay+Thai" class="rounded-lg shadow-xl mb-6" loading="lazy" alt="Muay Thai training session">
+                        <h3 class="text-2xl font-serif font-bold">Muay Thai Training</h3>
+                        <p class="mt-2 text-gray-700">Focus, power, discipline.</p>
                     </div>
-                    <div class="mt-12 border-t border-gray-800 pt-8">
-                        <p class="text-2xl text-gray-400">Total Value: <span class="line-through">$8,197+</span></p>
-                        <p class="text-4xl md:text-5xl font-bold mt-2">Your Invitation Price Is Revealed After Your Interview</p>
+                    <div>
+                        <img src="https://placehold.co/600x400/E7E3DA/0B0B0B?text=Yoga" class="rounded-lg shadow-xl mb-6" loading="lazy" alt="Yoga and breathwork session">
+                        <h3 class="text-2xl font-serif font-bold">Yoga & Breathwork</h3>
+                        <p class="mt-2 text-gray-700">Center the nervous system for high performance.</p>
+                    </div>
+                    <div>
+                        <img src="https://placehold.co/600x400/E7E3DA/0B0B0B?text=Adventure" class="rounded-lg shadow-xl mb-6" loading="lazy" alt="Group adventure challenge">
+                        <h3 class="text-2xl font-serif font-bold">Adventure Challenges</h3>
+                        <p class="mt-2 text-gray-700">Build trust, stamina, and camaraderie.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Upcoming Retreats Map Section -->
-        <section id="locations" class="bg-light py-20 md:py-32">
+        <!-- 4. AI Implementation Modules -->
+        <section class="bg-bloodroot text-vellum py-20 md:py-32">
             <div class="container mx-auto px-4 text-center">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4">Upcoming Retreats</h2>
-                <p class="text-lg text-gray-700 max-w-2xl mx-auto mb-16">We gather in the world's most inspiring locations.</p>
-                <div id="map" class="h-[500px] md:h-[600px] w-full rounded-2xl shadow-2xl border-4 border-white"></div>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold">Optimize the Mind, Master the Machine</h2>
+                <p class="mt-4 text-lg max-w-3xl mx-auto">Each guest leaves with a re-engineered tech stack and hands-on AI application training.</p>
+                <div class="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="border border-vellum/50 rounded-lg p-6">
+                        <h3 class="text-xl font-bold">Signal Channeling</h3>
+                        <p class="mt-2 text-vellum/80">Focus your inputs for maximum clarity.</p>
+                    </div>
+                    <div class="border border-vellum/50 rounded-lg p-6">
+                        <h3 class="text-xl font-bold">Custom AI Agent Design</h3>
+                        <p class="mt-2 text-vellum/80">Build your own assistants.</p>
+                    </div>
+                    <div class="border border-vellum/50 rounded-lg p-6">
+                        <h3 class="text-xl font-bold">Automation Architecture</h3>
+                        <p class="mt-2 text-vellum/80">Systems that work while you rest.</p>
+                    </div>
+                    <div class="border border-vellum/50 rounded-lg p-6">
+                        <h3 class="text-xl font-bold">Tech Stack Optimization</h3>
+                        <p class="mt-2 text-vellum/80">Integrate tools into a seamless flow.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Comparison Table -->
-        <section class="bg-light py-20 md:py-32">
+        <!-- 5. Citadel vs. The Rest -->
+        <section class="bg-white-section py-20 md:py-32">
             <div class="container mx-auto px-4">
-                <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">The Citadel vs. Others</h2>
-                <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-16">Why the Citadel is in a Class of Its Own</h2>
+                <div class="max-w-5xl mx-auto">
                     <table class="w-full text-left">
+                        <caption class="sr-only">Comparison of features between The Citadel, other retreats, and standard vacations.</caption>
                         <thead>
                             <tr>
-                                <th class="py-4"></th>
-                                <th class="py-4 text-center text-xl font-bold">The Citadel</th>
-                                <th class="py-4 text-center text-xl font-bold text-gray-500">Other Retreats</th>
-                                <th class="py-4 text-center text-xl font-bold text-gray-500">Cruise Ships</th>
+                                <th scope="col" class="py-4 text-xl font-bold">Feature</th>
+                                <th scope="col" class="py-4 text-center text-xl font-bold">Citadel</th>
+                                <th scope="col" class="py-4 text-center text-xl font-bold text-gray-400">Other Retreats</th>
+                                <th scope="col" class="py-4 text-center text-xl font-bold text-gray-400">Standard Vacations</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-300">
-                            <tr class="text-lg"><td class="py-4 font-semibold">Private room</td><td class="py-4 text-center text-green-600 font-bold">✓</td><td class="py-4 text-center text-red-500">✗</td><td class="py-4 text-center text-red-500">✗</td></tr>
-                            <tr class="text-lg"><td class="py-4 font-semibold">Beach access</td><td class="py-4 text-center text-green-600 font-bold">✓</td><td class="py-4 text-center text-red-500">✗</td><td class="py-4 text-center text-red-500">✗</td></tr>
-                            <tr class="text-lg"><td class="py-4 font-semibold">Group driver</td><td class="py-4 text-center text-green-600 font-bold">✓</td><td class="py-4 text-center text-red-500">✗</td><td class="py-4 text-center text-red-500">✗</td></tr>
-                            <tr class="text-lg"><td class="py-4 font-semibold">Pool</td><td class="py-4 text-center text-green-600 font-bold">✓</td><td class="py-4 text-center text-green-600 font-bold">✓</td><td class="py-4 text-center text-green-600 font-bold">✓</td></tr>
-                            <tr class="text-lg"><td class="py-4 font-semibold">Cold plunge</td><td class="py-4 text-center text-green-600 font-bold">✓</td><td class="py-4 text-center text-red-500">✗</td><td class="py-4 text-center text-red-500">✗</td></tr>
-                            <tr class="text-lg"><td class="py-4 font-semibold">Complimentary supplements</td><td class="py-4 text-center text-green-600 font-bold">✓</td><td class="py-4 text-center text-red-500">✗</td><td class="py-4 text-center text-red-500">✗</td></tr>
-                            <tr class="text-lg"><td class="py-4 font-semibold">AI training</td><td class="py-4 text-center text-green-600 font-bold">✓</td><td class="py-4 text-center text-red-500">✗</td><td class="py-4 text-center text-red-500">✗</td></tr>
-                            <tr class="text-lg"><td class="py-4 font-semibold">Invite-only</td><td class="py-4 text-center text-green-600 font-bold">✓</td><td class="py-4 text-center text-red-500">✗</td><td class="py-4 text-center text-red-500">✗</td></tr>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="text-lg"><th scope="row" class="py-4 font-semibold text-left">Invite-only network</th><td class="py-4 text-center text-bloodroot font-bold text-2xl">✓</td><td class="py-4 text-center text-gray-400">✗</td><td class="py-4 text-center text-gray-400">✗</td></tr>
+                            <tr class="text-lg"><th scope="row" class="py-4 font-semibold text-left">AI mastery curriculum</th><td class="py-4 text-center text-bloodroot font-bold text-2xl">✓</td><td class="py-4 text-center text-gray-400">✗</td><td class="py-4 text-center text-gray-400">✗</td></tr>
+                            <tr class="text-lg"><th scope="row" class="py-4 font-semibold text-left">Physical training & wellness</th><td class="py-4 text-center text-bloodroot font-bold text-2xl">✓</td><td class="py-4 text-center text-gray-400">✓</td><td class="py-4 text-center text-gray-400">✗</td></tr>
+                            <tr class="text-lg"><th scope="row" class="py-4 font-semibold text-left">Private chef</th><td class="py-4 text-center text-bloodroot font-bold text-2xl">✓</td><td class="py-4 text-center text-gray-400">✗</td><td class="py-4 text-center text-gray-400">✗</td></tr>
+                            <tr class="text-lg"><th scope="row" class="py-4 font-semibold text-left">Lifetime alumni network</th><td class="py-4 text-center text-bloodroot font-bold text-2xl">✓</td><td class="py-4 text-center text-gray-400">✗</td><td class="py-4 text-center text-gray-400">✗</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- FAQ Section -->
-        <section class="bg-dark py-20 md:py-32">
+        <!-- 6. Accommodation Showcase -->
+        <section class="bg-vellum py-20 md:py-32">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-16">Stay in Precision-Designed Luxury</h2>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <img src="https://placehold.co/800x600/E7E3DA/0B0B0B?text=Villa+Interior" class="rounded-lg shadow-xl" loading="lazy" alt="Interior of a luxury villa at The Citadel">
+                    </div>
+                    <div>
+                        <p class="text-xl text-gray-700">Every space is crafted for privacy, comfort, and inspiration. From private workspaces to serene living areas, your environment is optimized for both deep work and deep rest.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. Stacked Offer Value Breakdown -->
+        <section id="value" class="bg-bloodroot text-vellum py-20 md:py-32">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-4xl md:text-5xl font-serif font-bold">What’s Inside the Citadel Experience</h2>
+                <div class="mt-16 max-w-4xl mx-auto space-y-8">
+                    <div class="grid md:grid-cols-2 gap-8 text-left">
+                        <p class="text-xl border-b border-vellum/30 pb-4">AI Mastery Curriculum – <span class="font-bold">$5,000 Value</span></p>
+                        <p class="text-xl border-b border-vellum/30 pb-4">Private Villa Accommodation – <span class="font-bold">$4,000 Value</span></p>
+                        <p class="text-xl border-b border-vellum/30 pb-4">Nutrition & Private Chef – <span class="font-bold">$2,000 Value</span></p>
+                        <p class="text-xl border-b border-vellum/30 pb-4">Wellness & Fitness Training – <span class="font-bold">$1,500 Value</span></p>
+                        <p class="text-xl border-b border-vellum/30 pb-4">Lifetime Alumni Network – <span class="font-bold">$2,500 Value</span></p>
+                        <p class="text-xl border-b border-vellum/30 pb-4">Founder-Led Strategy Sessions – <span class="font-bold">$3,500 Value</span></p>
+                    </div>
+                    <p class="text-3xl pt-8">Total Value: <span class="line-through opacity-70">$20,000+</span></p>
+                    <p class="text-lg text-vellum/80">Your investment will be revealed during the interview process. It’s less than you think — but worth far more.</p>
+                    <a href="#apply" class="mt-8 inline-block bg-vellum text-obsidian font-bold px-10 py-4 rounded-lg hover:bg-opacity-90 transition-opacity text-lg">Apply for Interview</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 11. Founder Video Section -->
+        <section class="bg-bloodroot text-vellum py-20 md:py-32">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-4xl md:text-5xl font-serif font-bold mb-12">A Word From Our Founder</h2>
+                <div class="max-w-4xl mx-auto aspect-video bg-obsidian rounded-lg overflow-hidden shadow-2xl relative">
+                    <img src="https://placehold.co/1280x720/6B1E1E/E7E3DA?text=Founder+Video" class="w-full h-full object-cover" loading="lazy" alt="A video message from the founder of The Citadel">
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+                        <button class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label="Play video">
+                            <svg class="w-10 h-10 ml-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl italic text-vellum/80">"This isn’t for everyone — and that’s why it works."</p>
+            </div>
+        </section>
+
+        <!-- 13. Invite-Only CTA -->
+        <section id="apply" class="bg-obsidian text-vellum py-20 md:py-32 text-center">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl md:text-5xl font-serif font-bold">Apply. Interview. Enter the Citadel.</h2>
+                <p class="mt-4 text-lg max-w-2xl mx-auto">Limited spots, carefully curated attendees, global network.</p>
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#" class="bg-vellum text-obsidian font-bold px-10 py-4 rounded-lg hover:bg-opacity-90 transition-opacity text-lg">Apply Now</a>
+                    <a href="#" class="border border-vellum text-vellum font-bold px-10 py-4 rounded-lg hover:bg-vellum hover:text-obsidian transition-colors text-lg">Request a Private Call</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 14. FAQ Section -->
+        <section class="bg-white-section py-20 md:py-32">
             <div class="container mx-auto px-4 max-w-3xl">
-                <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">FAQs</h2>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-16">Frequently Asked Questions</h2>
                 <div class="space-y-4">
-                    <details class="border border-gray-700 rounded-xl p-6 group">
-                        <summary class="flex justify-between items-center cursor-pointer text-xl font-semibold">
-                            Who is this not for?
-                            <span class="text-2xl details-icon">+</span>
+                    <details class="border-b border-gray-200 pb-4 group">
+                        <summary class="flex justify-between items-center cursor-pointer text-xl font-semibold list-none">
+                            Who should apply?
+                            <span class="text-2xl text-bloodroot details-icon">+</span>
                         </summary>
-                        <p class="mt-4 text-gray-400">The Citadel is not for those seeking a passive vacation. It's an intensive experience for individuals committed to growth, contribution, and mastering new skills. If you are not ready to be challenged and engaged, this may not be the right fit.</p>
+                        <p class="mt-4 text-gray-700">Founders, executives, and high-agency individuals committed to tangible growth and contribution.</p>
                     </details>
-                    <details class="border border-gray-700 rounded-xl p-6 group">
-                        <summary class="flex justify-between items-center cursor-pointer text-xl font-semibold">
-                            What's the difference between this and other men's retreats?
-                            <span class="text-2xl details-icon">+</span>
+                    <details class="border-b border-gray-200 pb-4 group">
+                        <summary class="flex justify-between items-center cursor-pointer text-xl font-semibold list-none">
+                            Do I need prior AI experience?
+                            <span class="text-2xl text-bloodroot details-icon">+</span>
                         </summary>
-                        <p class="mt-4 text-gray-400">While we foster deep camaraderie, The Citadel is not exclusively a men's retreat. Our focus is on tangible skill acquisition (specifically AI) and holistic development, rather than just escape or adventure. We combine deep inner work with practical, future-proof skills.</p>
+                        <p class="mt-4 text-gray-700">No. We teach foundational principles and advanced applications. A desire to learn is the only prerequisite.</p>
                     </details>
-                    <details class="border border-gray-700 rounded-xl p-6 group">
-                        <summary class="flex justify-between items-center cursor-pointer text-xl font-semibold">
-                            Can I come solo?
-                            <span class="text-2xl details-icon">+</span>
+                    <details class="border-b border-gray-200 pb-4 group">
+                        <summary class="flex justify-between items-center cursor-pointer text-xl font-semibold list-none">
+                            What’s the refund policy?
+                            <span class="text-2xl text-bloodroot details-icon">+</span>
                         </summary>
-                        <p class="mt-4 text-gray-400">Absolutely. Most of our attendees come solo. It's a powerful way to build new, high-caliber connections and focus entirely on your own growth without external distractions.</p>
-                    </details>
-                    <details class="border border-gray-700 rounded-xl p-6 group">
-                        <summary class="flex justify-between items-center cursor-pointer text-xl font-semibold">
-                            What if I don't have a tech background?
-                            <span class="text-2xl details-icon">+</span>
-                        </summary>
-                        <p class="mt-4 text-gray-400">No prior tech experience is necessary. Our AI curriculum is designed from the ground up to take you from foundational concepts to practical application. The only prerequisite is a strong desire to learn and apply new knowledge.</p>
+                        <p class="mt-4 text-gray-700">Due to the curated nature of our retreats, payments are non-refundable but may be transferable to a future Citadel event under certain conditions.</p>
                     </details>
                 </div>
             </div>
         </section>
 
-        <!-- CTA Section -->
-        <section id="apply" class="relative py-32 md:py-48 text-center bg-black">
-            <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('https://placehold.co/1920x1080/000000/FFF?text=Sunset+Retreat');"></div>
-            <div class="relative z-10 px-4">
-                <h2 class="text-5xl md:text-7xl font-bold">Invite Only</h2>
-                <p class="text-xl md:text-2xl mt-4">Limited spots are available for our upcoming retreats.</p>
-                <a href="#" class="mt-12 inline-block bg-accent text-white font-bold text-lg px-12 py-4 rounded-lg hover:opacity-90 transition-opacity">Apply to be Interviewed</a>
+        <!-- 15. Final Closing Section -->
+        <footer class="bg-bloodroot text-vellum py-20 md:py-32 text-center">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl md:text-5xl font-serif font-bold">Unlock Your Full Potential</h2>
+                <p class="mt-4 text-lg max-w-2xl mx-auto">The Citadel is a decision point — enter prepared to transform.</p>
+                <a href="#apply" class="mt-10 inline-block bg-vellum text-obsidian font-bold px-10 py-4 rounded-lg hover:bg-opacity-90 transition-opacity text-lg">Apply Now</a>
             </div>
-        </section>
+        </footer>
 
     </main>
+    
+    <!-- Persistent Mobile CTA -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-obsidian/80 backdrop-blur-sm p-4 border-t border-vellum/20 z-50">
+        <a href="#apply" class="w-full text-center bg-vellum text-obsidian font-bold px-6 py-3 rounded-lg hover:bg-opacity-90 transition-opacity text-lg">Apply for Interview</a>
+    </div>
 
-    <!-- Footer -->
-    <footer class="bg-light py-16">
-        <div class="container mx-auto px-8 text-center">
-            <a href="#" class="flex items-center justify-center space-x-2 text-black">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 21v-4.5m0 0A9.75 9.75 0 0112 3v0a9.75 9.75 0 019 13.5m-9 0v4.5m0-4.5H3m9 0h9"></path><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.75 9.75 0 01-9-13.5"></path></svg>
-                <span class="text-2xl font-semibold">Citadel</span>
-            </a>
-            <p class="mt-4 text-gray-600 max-w-md mx-auto">A transformative experience for those ready to forge their strength and channel their signal.</p>
-            <p class="mt-8 text-gray-500 text-sm">&copy; 2025 The Citadel. All Rights Reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Leaflet JS for Map -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
-        // --- Sticky Navigation Logic ---
-        const nav = document.getElementById('sticky-nav');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > window.innerHeight - 50) {
-                nav.style.top = '0';
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuLinks = document.querySelectorAll('.menu-link');
+
+        menuToggle.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                setTimeout(() => mobileMenu.classList.remove('opacity-0'), 10);
             } else {
-                nav.style.top = '-100px';
+                mobileMenu.classList.add('opacity-0');
+                setTimeout(() => mobileMenu.classList.add('hidden'), 300);
             }
         });
-
-        // --- Interactive Map Logic ---
-        document.addEventListener('DOMContentLoaded', function () {
-            const map = L.map('map', {
-                center: [15, 101], // Centered broadly on Southeast Asia
-                zoom: 4,
-                scrollWheelZoom: false,
-                zoomControl: false,
-            });
-
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                subdomains: 'abcd',
-                maxZoom: 20
-            }).addTo(map);
-
-            const locations = [
-                { lat: 9.53, lng: 100.03, name: 'Koh Samui, Thailand' },
-                { lat: 3.13, lng: 101.68, name: 'Malaysia' },
-                { lat: -8.34, lng: 115.09, name: 'Bali, Indonesia' },
-                { lat: 41.71, lng: 44.78, name: 'Tbilisi, Georgia' }
-            ];
-
-            const customIcon = L.divIcon({
-                className: 'custom-pin',
-                iconSize: [16, 16]
-            });
-
-            locations.forEach(loc => {
-                L.marker([loc.lat, loc.lng], { icon: customIcon })
-                 .addTo(map)
-                 .bindPopup(`<b>${loc.name}</b><br>Upcoming Retreat`);
+        
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('opacity-0');
+                setTimeout(() => mobileMenu.classList.add('hidden'), 300);
             });
         });
     </script>
-
 </body>
 </html>
